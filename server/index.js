@@ -1,10 +1,9 @@
 const express = require('express');
+const app = express()
+require('dotenv').config();
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-require('dotenv').config;
 const port = process.env.PORT || 5000;
-
-const app = express();
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const corsOptions = {
     origin: ['http://localhost:5000'],
