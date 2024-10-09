@@ -26,34 +26,6 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-     // user releted apis
-     app.post('/users', async (req, res) => {
-      const user = req.body;
-      // insert email if user exists:
-      const query = { email: user.email };
-      const existingUser = await userCollection.findOne(query);
-      if (existingUser) {
-          return res.send({ message: 'user already exists', insertedId: null })
-      }
-      const result = await userCollection.insertOne(user)
-      res.send(result)
-  })
-
-  app.get('/users', verifyToken, verifyAdmin, async (req, res) => {
-      const result = await userCollection.find().toArray()
-      res.send(result);
-  })
-
-  app.delete('/users/:id', verifyToken, verifyAdmin, async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await userCollection.deleteOne(query);
-      res.send(result);
-  })
-
-
-
-
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
