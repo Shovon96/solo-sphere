@@ -21,11 +21,11 @@ const JobCard = ({ job }) => {
           {job_title}
         </h1>
 
-        <p className='mt-2 text-sm text-gray-600 '>
-          { description }
+        <p title={description} className='mt-2 text-sm text-gray-600 '>
+          {description.substring(0, 70)} ...
         </p>
         <p className='mt-2 text-sm font-bold text-gray-600 '>
-          Range: {min_price} - {max_price}
+          Range: ${min_price} - ${max_price}
         </p>
       </div>
     </Link>
