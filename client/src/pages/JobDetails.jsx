@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import { useLoaderData } from "react-router-dom"
 import { AuthContext } from "../provider/AuthProvider"
+import axios from 'axios'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -23,7 +24,13 @@ const JobDetails = () => {
     const status = 'pending'
 
     const bidData = { jobId, price, comment, email, status, buyer_email, deadline, category, job_title }
-    console.log(bidData);
+    // console.log(bidData);
+    try {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidData)
+      console.log(data);
+    }catch (err) {
+      console.log(err);
+    }
   }
 
   return (
