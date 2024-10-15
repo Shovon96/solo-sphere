@@ -47,8 +47,6 @@ async function run() {
     // Post single bid data
     app.post('/bid', async (req, res) => {
       const bidData = req.body
-      console.log(bidData);
-      return
       const result = await bidsCollection.insertOne(bidData);
       res.send(result)
     })
