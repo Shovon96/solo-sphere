@@ -12,28 +12,28 @@ const JobDetails = () => {
   const [startDate, setStartDate] = useState(new Date());
 
   const job = useLoaderData() || []
-  const { _id, name, job_title, deadline, category, description, min_price, max_price, buyer_email } = job || {}
+  const { _id, job_title, deadline, category, description, min_price, max_price, buyer } = job || {}
 
   const handleFormSubmit = async (e) => {
-    if (user?.email === buyer_email)
+    e.preventDefault(); 
+    if (user?.email === buyer?.email)
       return toast.error('Action not permited')
-    e.preventDefault();
     const form = e.target
     const jobId = _id;
     const price = parseFloat(form.price.value)
-    if ( price < parseFloat(min_price))
+    if (price < parseFloat(min_price))
       return toast.error('Offer more or at least equal to minimum price')
     const comment = form.comment.value;
     const deadline = startDate;
     const email = user?.email;
     const status = 'pending'
 
-    const bidData = { jobId, price, comment, email, status, buyer_email, deadline, category, job_title }
+    const bidData = { jobId, price, comment, email, buyer_email: buyer?.email, status, deadline, category, job_title }
     // console.log(bidData);
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidData)
       console.log(data);
-    }catch (err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -44,7 +44,7 @@ const JobDetails = () => {
       <div className='flex-1  px-4 py-7 bg-white rounded-md shadow-md md:min-h-[350px]'>
         <div className='flex items-center justify-between'>
           <span className='text-sm font-light text-gray-800 '>
-            Deadline: {deadline}
+            Deadline: {new Date(deadline).toLocaleDateString()}
           </span>
           <span className='px-4 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full '>
             {category}
@@ -64,13 +64,13 @@ const JobDetails = () => {
           </p>
           <div className='flex items-center gap-5'>
             <div>
-              <p className='mt-2 text-sm  text-gray-600 '>Name: {name}</p>
+              <p className='mt-2 text-sm  text-gray-600 '>Name: {buyer?.name}</p>
               <p className='mt-2 text-sm  text-gray-600 '>
-                Email: {buyer_email}
+                Email: {buyer?.email}
               </p>
             </div>
-            <div className='rounded-full object-cover overflow-hidden w-14 h-14'>
-              <img src='' alt='' />
+            <div className='rounded-full object-cover overflow-hidden w-14 h-14 border'>
+              <img src={buyer?.photo} alt='' />
             </div>
           </div>
           <p className='mt-6 text-lg font-bold text-gray-600 '>
