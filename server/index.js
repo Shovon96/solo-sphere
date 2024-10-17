@@ -61,7 +61,7 @@ async function run() {
     // get specifice job data by using email
     app.get('/jobs/:email', async (req, res) => {
       const email = req.params.email
-      const query = { 'buyer_email': email }
+      const query = { 'buyer.email': email }
       const result = await jobsCollection.find(query).toArray()
       res.send(result)
     })
